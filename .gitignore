@@ -1,5 +1,6 @@
 .DS_Store
 .svn
+.git
 node_modules
 /dist
 example.html

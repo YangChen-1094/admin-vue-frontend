@@ -84,21 +84,41 @@ init();
 
 
 //=== 以下是测试代码======
-function read(content) {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            resolve(content) //content作为then的成功参数传递，如下的data
-        }, 1000)
-    })
-}
-
-let result = Promise.all([read(1), read(2)]);
-result.then((data) => {
-    console.log(data) //[ 1, 2 ]
-})
+// function read(content) {
+//     return new Promise(function (resolve, reject) {
+//         setTimeout(function () {
+//             resolve(content) //content作为then的成功参数传递，如下的data
+//         }, 1000)
+//     })
+// }
+//
+// let result = Promise.all([read(1), read(2)]);
+// result.then((data) => {
+//     console.log(data) //[ 1, 2 ]
+// })
 
 axios.post("/webadmins/user/getSessionInfo", {"session" : "1231312"}).then(function (res) {
     console.log("success", res)
 }).catch(function (err) {
     console.log("failed", err)
+});
+
+
+function read(content) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            if(content>4){
+                resolve(content)
+            }else{
+                reject(content)
+            }
+        }, 1000*content)
+    })
+}
+
+let result = Promise.all([read(3), read(5), read(2)]);
+result.then((data) => {
+    console.log('成功'+data)
+},(err)=>{
+    console.log('失败'+err) //失败2, 如果有一个失败了，就都失败了，返回失败的数据
 })

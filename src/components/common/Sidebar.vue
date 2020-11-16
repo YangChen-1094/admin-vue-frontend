@@ -8,14 +8,13 @@
                 text-color="#bfcbd9"
                 active-text-color="#20a0ff"
                 unique-opened
-                router
-        >
+                router> <!--router 路由-->
             <template v-for="item in items">
                 <template v-if="item.subs">
-                    <el-submenu :index="item.index" :key="item.index"  v-if="item.index!='permission' || (item.index=='permission' && showPermision)">
+                    <el-submenu :index="item.index" :key="item.index"  v-if="item.index!='permission' || (item.index=='permission' && showPermission)">
                         <template slot="title">
                             <i :class="item.icon"></i>
-                            <span slot="title">{{ item.title }}</span>
+                            <span slot="title">{{ item.title }}</span><!--一级目录标题-->
                         </template>
                         <template v-for="subItem in item.subs">
                             <el-submenu
@@ -23,18 +22,18 @@
                                     :index="subItem.index"
                                     :key="subItem.index"
                             >
-                                <template slot="title">{{ subItem.title }}</template>
+                                <template slot="title">{{ subItem.title }}</template><!--二级目录标题-->
                                 <el-menu-item
                                         v-for="(threeItem,i) in subItem.subs"
                                         :key="i"
                                         :index="threeItem.index"
-                                >{{ threeItem.title }}</el-menu-item>
+                                >{{ threeItem.title }}</el-menu-item><!--三级目录标题-->
                             </el-submenu>
                             <el-menu-item
                                     v-else
                                     :index="subItem.index"
                                     :key="subItem.index"
-                            >{{ subItem.title }}</el-menu-item>
+                            >{{ subItem.title }}</el-menu-item><!--二级目录标题-->
                         </template>
                     </el-submenu>
                 </template>
@@ -54,7 +53,7 @@
     export default {
         data() {
             return {
-                showPermision:false,
+                showPermission:false,
                 collapse: false,
                 items: [
                     {
@@ -123,7 +122,7 @@
                         title:  '邮件配置',
                         subs:[{
                             index:  'mailList',
-                            title:  '邮件列表'
+                            title:  '邮件列表',
                         },
                         {
                             index:  'userMailList',

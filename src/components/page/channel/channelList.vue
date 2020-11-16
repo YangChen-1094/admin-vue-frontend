@@ -30,15 +30,10 @@
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
-                <el-table-column prop="id" label="ID" width="55" align="center">
-                    <template slot-scope="scope">{{scope.$index+1}}</template>
-                </el-table-column>
-                <el-table-column label="名称">
-                    <template slot-scope="scope">{{scope.row.name}}</template>
-                </el-table-column>
-                <el-table-column label="渠道ID">
-                    <template slot-scope="scope">{{scope.row.channelId}}</template>
-                </el-table-column>
+                <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="name" label="名称" align="center"></el-table-column>
+                <el-table-column prop="channel_id" label="渠道ID" align="center"></el-table-column>
+                <el-table-column prop="datetime" label="修改时间" align="center"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -93,12 +88,12 @@
                 width="30%">
             <el-row>
                 <el-col :span="4"><div class="grid-content bg-purple">名称</div></el-col>
-                <el-col :span="20"><el-input v-model="channelIdAdd" placeholder="请输入内容"></el-input></el-col>
+                <el-col :span="20"><el-input v-model="nameAdd" placeholder="请输入内容"></el-input></el-col>
             </el-row>
             <div style="margin: 20px 0px;"></div>
             <el-row>
                 <el-col :span="4"><div class="grid-content bg-purple">渠道ID</div></el-col>
-                <el-col :span="20"><el-input v-model="nameAdd" placeholder="请输入内容"></el-input></el-col>
+                <el-col :span="20"><el-input v-model="channelIdAdd" placeholder="请输入内容"></el-input></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -130,8 +125,9 @@ export default {
     },
     methods: {
         getData() {
-            request.post('./channelList').then(res => {
-                this.table_data = res.data;
+            request.post('./channel/list').then(res => {
+                let alist = res.data.list
+                this.table_data = alist;
             })
         },
         // 删除
@@ -140,7 +136,7 @@ export default {
             this.id = row.id;
         },
         confirmDel() {
-            request.post('./channelDelete',{id:this.id}).then(res => {
+            request.post('./channel/del',{id:this.id}).then(res => {
                 this.delDialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '删除成功',type: 'success'});
@@ -153,12 +149,12 @@ export default {
         //编辑
         handleEdit(index, row) {
             this.dialogVisible = true;
-            this.channelId = row.channelId;
+            this.channelId = row.channel_id;
             this.name = row.name;
             this.id = row.id;
         },
         confirmEdit() {
-            request.post('./channelModify',{id:this.id,name:this.name,channelId:this.channelId}).then(res => {
+            request.post('./channel/modify',{id:this.id,name:this.name,channel_id:this.channelId}).then(res => {
                 this.dialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '修改成功',type: 'success'});
@@ -174,7 +170,7 @@ export default {
             this.addDialogVisible = true;
         },
         confirmAdd() {
-            request.post('./channelAdd',{name:this.nameAdd,channelId:this.channelIdAdd}).then(res => {
+            request.post('./channel/add',{name:this.nameAdd,channel_id:this.channelIdAdd}).then(res => {
                 this.addDialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '添加成功',type: 'success'});

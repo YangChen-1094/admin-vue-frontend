@@ -33,6 +33,10 @@ const service = axios.create({
 });
 service.interceptors.request.use(
     config => {
+        let baseParam = localStorage.getItem("baseParam");
+        if(baseParam){
+            config.headers.token = JSON.parse(baseParam).token
+        }
         return config;
     },
     error => {
