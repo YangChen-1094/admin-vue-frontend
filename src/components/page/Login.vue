@@ -112,7 +112,7 @@ export default {
             if (refresh) {
                 this.identifycode = request.serverBaseUrl + '/webadmins/user/vcode?id=' + Math.random();
             }
-        }
+        } 
     },
 };
 </script>
