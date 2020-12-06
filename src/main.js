@@ -97,11 +97,11 @@ init();
 //     console.log(data) //[ 1, 2 ]
 // })
 
-axios.post("/webadmins/user/getSessionInfo", {"session" : "1231312"}).then(function (res) {
-    console.log("success", res)
-}).catch(function (err) {
-    console.log("failed", err)
-});
+// axios.post("/webadmins/user/getSessionInfo", {"session" : "1231312"}).then(function (res) {
+//     console.log("success", res)
+// }).catch(function (err) {
+//     console.log("failed", err)
+// });
 
 
 function read(content) {

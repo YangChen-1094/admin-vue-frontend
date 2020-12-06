@@ -1,9 +1,11 @@
+const express = require("express")
+
 module.exports = {
     publicPath: './',
     assetsDir: 'static',
     productionSourceMap: false,
     devServer: {
-        proxy: 'http://localhost:9090',
+        // proxy: 'http://vm.my_gin_server.com:9091',
     },
     configureWebpack : {
         performance : {

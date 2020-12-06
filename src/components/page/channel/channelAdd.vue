@@ -56,12 +56,18 @@ export default {
         },
         goUpload(){
             let that = this;
+            let baseParam = localStorage.getItem("baseParam");
+            let token = ""
+            if(baseParam){//要带上jwt，不然验证不通过
+                token = JSON.parse(baseParam).token
+            }
             axios({
                 method: 'post',
-                url: request.serverBaseUrl+'/webadmins/channelImport',
+                url: request.serverBaseUrl+'/webadmins/channel/import',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'token' : token
                 },
                 data: that.formData,
             }).then(function(res) {

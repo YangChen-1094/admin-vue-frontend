@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import request from '../../../utils/request';
+import service from "../../../utils/request";
 export default {
     name: 'channelList',
     data() {
@@ -125,7 +125,7 @@ export default {
     },
     methods: {
         getData() {
-            request.post('./channel/list').then(res => {
+            service.post('./channel/list').then(res => {
                 let alist = res.data.list
                 this.table_data = alist;
             })
@@ -136,7 +136,7 @@ export default {
             this.id = row.id;
         },
         confirmDel() {
-            request.post('./channel/del',{id:this.id}).then(res => {
+            service.post('./channel/del',{id:this.id}).then(res => {
                 this.delDialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '删除成功',type: 'success'});
@@ -154,7 +154,7 @@ export default {
             this.id = row.id;
         },
         confirmEdit() {
-            request.post('./channel/modify',{id:this.id,name:this.name,channel_id:this.channelId}).then(res => {
+            service.post('./channel/modify',{id:this.id,name:this.name,channel_id:this.channelId}).then(res => {
                 this.dialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '修改成功',type: 'success'});
@@ -170,7 +170,7 @@ export default {
             this.addDialogVisible = true;
         },
         confirmAdd() {
-            request.post('./channel/add',{name:this.nameAdd,channel_id:this.channelIdAdd}).then(res => {
+            service.post('./channel/add',{name:this.nameAdd,channel_id:this.channelIdAdd}).then(res => {
                 this.addDialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '添加成功',type: 'success'});

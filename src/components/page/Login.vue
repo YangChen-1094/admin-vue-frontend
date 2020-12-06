@@ -37,6 +37,7 @@
 <script>
 import request from '../../utils/request';
 import cookie from 'vue-cookie'
+import axios from 'axios'
 Vue.prototype.$axios = cookie;
 import {AES} from '../../utils/AES' //aes加密
 import {Functions} from '../../utils/Functions' //自己封装的方法
@@ -44,6 +45,7 @@ import Vue from "vue";
 export default {
     data: function() {
         return {
+            captchaId:'',//验证码
             identifycode:'',//验证码图片
             param: {
                 username: '',
@@ -64,8 +66,7 @@ export default {
         submitForm() {
             let enPass = AES.encrypt(this.param.password);
             request.defaults.withCredentials = true;
-            console.log(Vue.prototype);
-            request.post('./user/login',{'username':this.param.username,'password':enPass,'vcode':this.param.vcode}).then(res => {
+            request.post('./user/login',{'username':this.param.username,'password':enPass,'vcode':this.param.vcode, 'captchaId' : this.captchaId}).then(res => {
                 if(res.code == 200){
                     this.$message.success('登录成功');
                     localStorage.setItem('ms_id', res.data.id);
@@ -93,7 +94,19 @@ export default {
                 return father.pid==0;
             });
         },
-        getVCode(refresh) {
+        getVCode() {
+            request.post('./user/captchaId', {}).then(res => {
+                let code = res.code
+                let data = res.data
+                if(code == 200){
+                    this.captchaId = data.captchaId;
+                    this.identifycode = request.serverBaseUrl + '/webadmins/user/codeImg?captchaId='+this.captchaId;
+                }else{
+                    this.captchaId = '';
+                }
+            })
+        },
+        getVCode1(refresh) {
             // this.identifycode = request.get("./user/vcode")
             this.identifycode = request.serverBaseUrl + '/webadmins/user/vcode';
             if (refresh) {

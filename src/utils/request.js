@@ -14,8 +14,8 @@ const getHost = function () {
 //let serverBaseUrl = 'http://10.100.0.83:6899';
 //let serverBaseUrl = 'http://10.72.17.162:93';
 //let serverBaseUrl = 'http://192.168.106.61:8080';
-let serverBaseUrl = getHost();
-// let serverBaseUrl = Vue.prototype.baseUrl;
+// let serverBaseUrl = getHost();
+let serverBaseUrl = Vue.prototype.baseUrl;
 const service = axios.create({
     //process.env.NODE_ENV === 'development',
     'Access-Control-Allow-Credentials':true,
