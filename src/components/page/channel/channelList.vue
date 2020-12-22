@@ -19,6 +19,7 @@
                     <router-link to="/channelAdd" class="router-btn">
                         <el-button type="primary">批量导入</el-button>
                     </router-link>
+                    <el-button type="primary" @click="exportChannel">导出渠道</el-button>
                 </div>
             </el-col>
         </el-row>
@@ -168,6 +169,15 @@ export default {
             this.channelIdAdd = "";
             this.nameAdd = "";
             this.addDialogVisible = true;
+        },
+        exportChannel(){
+            service.post('./channel/export',{}).then(res => {
+                if(res.code==200){
+                    this.$message({message: '导出成功',type: 'success'});
+                }else{
+                    this.$message.error('导出失败');
+                }
+            })
         },
         confirmAdd() {
             service.post('./channel/add',{name:this.nameAdd,channel_id:this.channelIdAdd}).then(res => {

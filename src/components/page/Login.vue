@@ -135,8 +135,7 @@ export default {
 .ms-login {
     position: absolute;
     left: 50%;
-    top: 50%;
-    width: 400px;
+    top: 50%;width: 400px;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
     background: rgba(255, 255, 255);
