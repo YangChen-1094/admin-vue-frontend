@@ -25,9 +25,9 @@ export default new Router({
                     meta: { title: '渠道配置' }
                 },
                 {
-                    path: '/versionList',
-                    component: () => import(/* webpackChunkName: "public" */ '../components/page/public/versionList.vue'),
-                    meta: { title: '版本配置' }
+                    path: '/itemList',
+                    component: () => import(/* webpackChunkName: "public" */ '../components/page/public/itemList.vue'),
+                    meta: { title: '道具配置' }
                 },
                 {
                     path: '/summonList',

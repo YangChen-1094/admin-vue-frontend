@@ -71,8 +71,8 @@
                                 title: '渠道配置'
                             },
                             {
-                                index: 'versionList',
-                                title: '版本配置'
+                                index: 'itemList',
+                                title: '道具配置'
                             },
                             {
                                 index: 'summonList',

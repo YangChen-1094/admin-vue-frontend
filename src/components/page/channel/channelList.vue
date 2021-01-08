@@ -33,7 +33,7 @@
             >
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="名称" align="center"></el-table-column>
-                <el-table-column prop="channel_id" label="渠道ID" align="center"></el-table-column>
+                <el-table-column prop="channelId" label="渠道ID" align="center"></el-table-column>
                 <el-table-column prop="datetime" label="修改时间" align="center"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -101,6 +101,16 @@
                 <el-button type="primary" @click="confirmAdd">确 定</el-button>
             </span>
         </el-dialog>
+        <el-pagination
+                style="float: right"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="query.page_index"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="query.page_size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="page_total">
+        </el-pagination>
     </div>
 </template>
 
@@ -110,6 +120,11 @@ export default {
     name: 'channelList',
     data() {
         return {
+            query: {
+                page_index: 1,
+                page_size: 10,
+            },
+            page_total: 0,
             table_data: [],
             id: "",
             channelId: "",
@@ -125,9 +140,20 @@ export default {
         this.getData();
     },
     methods: {
+        // 初始页currentPage、初始每页数据数pagesize和数据data
+        handleSizeChange: function (size) {
+            this.query.page_size = size;
+            this.getData();
+        },
+        handleCurrentChange: function(currentPage){
+            this.query.page_pre = this.query.page_index;//上一次的页数
+            this.query.page_index = currentPage;
+            this.getData();
+        },
         getData() {
-            service.post('./channel/list').then(res => {
+            service.post('./channel/list', {'page':this.query.page_index, "size": this.query.page_size}).then(res => {
                 let alist = res.data.list
+                this.page_total = res.data.count;
                 this.table_data = alist;
             })
         },
@@ -150,12 +176,12 @@ export default {
         //编辑
         handleEdit(index, row) {
             this.dialogVisible = true;
-            this.channelId = row.channel_id;
+            this.channelId = row.channelId;
             this.name = row.name;
             this.id = row.id;
         },
         confirmEdit() {
-            service.post('./channel/modify',{id:this.id,name:this.name,channel_id:this.channelId}).then(res => {
+            service.post('./channel/modify',{id:this.id,name:this.name,channelId:this.channelId}).then(res => {
                 this.dialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '修改成功',type: 'success'});
@@ -180,7 +206,7 @@ export default {
             })
         },
         confirmAdd() {
-            service.post('./channel/add',{name:this.nameAdd,channel_id:this.channelIdAdd}).then(res => {
+            service.post('./channel/add',{name:this.nameAdd,channelId:this.channelIdAdd}).then(res => {
                 this.addDialogVisible = false;
                 if(res.code==200){
                     this.$message({message: '添加成功',type: 'success'});

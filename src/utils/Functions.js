@@ -17,6 +17,21 @@ export const Functions = {
 			object = JSON.parse(object)
 		}
 		localStorage.setItem('baseParam', JSON.stringify(object));
-	}
+	},
 	//加密
+	//判断数据是否在数组中
+	isInArray(target, array, strict=false){
+		for(let key in array) {
+			if (strict === true) {
+				if (target === array[key]) {
+					return true;
+				}
+			}else{
+				if (target == array[key]) {
+					return true;
+				}
+			}
+		}
+		return false
+	}
 }
